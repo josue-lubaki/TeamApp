@@ -67,7 +67,9 @@ private fun DetailsScreen(
         ) {
             val (_, fullName, imageURL, profession) = user
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
