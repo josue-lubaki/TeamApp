@@ -2,6 +2,9 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt.android)
+    id("kotlin-kapt")
+
 }
 
 android {
@@ -17,14 +20,17 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
+            @Suppress("UnstableApiUsage")
             useSupportLibrary = true
         }
     }
 
     buildTypes {
         release {
+            @Suppress("UnstableApiUsage")
             isMinifyEnabled = false
             proguardFiles(
+                @Suppress("UnstableApiUsage")
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
@@ -37,12 +43,18 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    @Suppress("UnstableApiUsage")
     buildFeatures {
         compose = true
     }
+
+    @Suppress("UnstableApiUsage")
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
     }
+
+    @Suppress("UnstableApiUsage")
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -60,6 +72,23 @@ dependencies {
     implementation(libs.ui.graphics)
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
+    implementation(libs.material.icons.extended)
+
+    // coil
+    implementation(libs.coil.compose)
+
+    // navigation
+    implementation(libs.navigation.compose)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // DI
+    implementation(libs.hiltLibs.android)
+    kapt(libs.hiltLibs.compiler)
+    implementation(libs.hiltLibs.navigation.compose)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

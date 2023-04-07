@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TeamApp</string>
+    <string name="developer_android">Développeur Android</string>
+    <string name="developer_ios">Développeur iOS</string>
+    <string name="developer_web">Développeur Web</string>
+    <string name="developer_backend">Développeur Backend</string>
+    <string name="developer_react_native">Développeur React-Native</string>
+    <string name="developer_flutter">Développeur Flutter</string>
+    <string name="developer_kotlin">Développeur Kotlin</string>
+    <string name="director_practice">Directeur de la pratique</string>
+    <string name="users_list">Développeurs</string>
+    <string name="user_profile_details">Détails du profil utilisateur</string>
+    <string name="click_to_see_user_details">Cliquez pour voir les détails de l\'utilisateur</string>
+    <string name="profile_picture">Photo de profil</string>
+</resources>

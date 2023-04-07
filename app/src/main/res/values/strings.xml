@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">TeamApp</string>
+    <string name="developer_android">Android Developer</string>
+    <string name="developer_ios">iOS Developer</string>
+    <string name="developer_web">Web Developer</string>
+    <string name="developer_backend">Backend Developer</string>
+    <string name="developer_react_native">React-Native Developer</string>
+    <string name="developer_flutter">Flutter Developer</string>
+    <string name="developer_kotlin">Kotlin Developer</string>
+    <string name="director_practice">Practice Director</string>
+    <string name="users_list">Developers</string>
+    <string name="user_profile_details">User Profile Details</string>
+    <string name="click_to_see_user_details">Click to see user details</string>
+    <string name="profile_picture">Profile Picture</string>
 </resources>
