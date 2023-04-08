@@ -15,15 +15,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession.*
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
+import ca.josue_lubaki.teamapp.domain.models.orPlaceholder
 import ca.josue_lubaki.teamapp.presentation.components.AppBar
 import ca.josue_lubaki.teamapp.presentation.components.ProfileContent
 import ca.josue_lubaki.teamapp.presentation.components.ProfilePicture
@@ -43,9 +48,22 @@ fun DetailScreenContainer(
     viewModel: DetailsViewModel,
     onBackPressed: () -> Unit
 ) {
-    val user = viewModel.onGetUserById(id)
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val user = remember { mutableStateOf<UserEntity?>(null) }
+
+    LaunchedEffect(key1 = id){
+        viewModel.onGetUserById(id)
+    }
+
+    LaunchedEffect(key1 = state){
+        when(state){
+            is DetailsState.Success -> user.value = (state as DetailsState.Success).user
+            else -> Unit
+        }
+    }
+
     DetailsScreen(
-        user = user,
+        user = user.value,
         onBackPressed = onBackPressed
     )
 }
@@ -53,7 +71,7 @@ fun DetailScreenContainer(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailsScreen(
-    user: UserEntity,
+    user: UserEntity?,
     onBackPressed: () -> Unit
 ) {
     Scaffold(
@@ -72,7 +90,8 @@ private fun DetailsScreen(
             modifier = Modifier.fillMaxSize(),
             color = backgroundColor.copy(alpha = 0.1f),
         ) {
-            val (_, fullName, imageURL, profession) = user
+            // destructing the user object
+            val (_, fullName, imageURL, profession) = user.orPlaceholder()
 
             Box(modifier = Modifier.fillMaxWidth()) {
                 Image(

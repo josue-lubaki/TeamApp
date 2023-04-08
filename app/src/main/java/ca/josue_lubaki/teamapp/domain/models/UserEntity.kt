@@ -14,3 +14,13 @@ data class UserEntity (
     val imageURL: String,
     val profession: Profession,
 )
+
+fun UserEntity?.orPlaceholder() : UserEntity {
+    return this
+        ?: UserEntity(
+            id = -1,
+            fullName = "",
+            imageURL = "",
+            profession = Profession.DEVELOPER_ANDROID
+        )
+}

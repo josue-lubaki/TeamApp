@@ -12,12 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
+import ca.josue_lubaki.teamapp.ui.theme.dimensions
 import coil.compose.rememberAsyncImagePainter
 
 /**
@@ -28,22 +29,25 @@ import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun ProfilePicture(
-    imageURL : String,
-    imageSize : Dp = 72.dp,
-    borderSize : Dp = 2.dp,
-    borderColor : Color = MaterialTheme.colorScheme.primary
+    imageURL: String,
+    imageSize: Dp = MaterialTheme.dimensions.paddingSemiXLarge,
+    borderSize: Dp = MaterialTheme.dimensions.borderStrokeSmall,
+    borderColor: Color = MaterialTheme.colorScheme.primary
 ) {
     Card(
         shape = CircleShape,
-        border= BorderStroke(
+        border = BorderStroke(
             width = borderSize,
             color = borderColor,
         ),
-        modifier = Modifier.padding(16.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        modifier = Modifier.padding(MaterialTheme.dimensions.medium),
+        elevation = CardDefaults.cardElevation(MaterialTheme.dimensions.micro)
     ) {
         Image(
-            painter = rememberAsyncImagePainter(imageURL),
+            painter =
+                if (imageURL.isNotEmpty())
+                    rememberAsyncImagePainter(imageURL)
+                else painterResource(R.drawable.profile),
             contentDescription = stringResource(R.string.profile_picture),
             modifier = Modifier.size(imageSize),
             contentScale = ContentScale.Crop,

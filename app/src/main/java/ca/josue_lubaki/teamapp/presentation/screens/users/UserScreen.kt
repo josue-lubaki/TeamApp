@@ -11,10 +11,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
@@ -33,10 +39,25 @@ fun UserScreenContainer(
     viewModel: UserViewModel,
     onSelected: (Int) -> Unit
 ) {
-    val usersList = viewModel.users
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    val usersList = remember { mutableStateOf<List<UserEntity>>(emptyList())}
+
+    LaunchedEffect(key1 = true){
+        viewModel.onGetUsers()
+    }
+
+    LaunchedEffect(key1 = state){
+        when(state){
+            is UserState.Success -> {
+                usersList.value = (state as UserState.Success).users
+            }
+
+            else -> Unit
+        }
+    }
 
     UserScreen(
-        usersList = usersList,
+        usersList = usersList.value,
         onSelected = onSelected
     )
 }
