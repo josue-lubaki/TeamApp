@@ -1,6 +1,7 @@
 package ca.josue_lubaki.teamapp.data.datasource
 
-import ca.josue_lubaki.teamapp.data.models.User
+import ca.josue_lubaki.teamapp.domain.models.UserStatus
+import kotlinx.coroutines.flow.Flow
 
 /**
  * created by Josue Lubaki
@@ -9,5 +10,6 @@ import ca.josue_lubaki.teamapp.data.models.User
  */
 
 interface UserDataSource {
-    fun getAllUsers(): List<User>
+    suspend fun getAllUsers(): Flow<UserStatus>
+    suspend fun getUserById(userId: Int): Flow<UserStatus>
 }

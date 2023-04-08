@@ -1,9 +1,10 @@
 package ca.josue_lubaki.teamapp.data.repository
 
 import ca.josue_lubaki.teamapp.data.datasource.UserDataSource
-import ca.josue_lubaki.teamapp.data.mapper.toDomain
-import ca.josue_lubaki.teamapp.domain.models.UserEntity
+import ca.josue_lubaki.teamapp.domain.models.UserStatus
 import ca.josue_lubaki.teamapp.domain.repository.UserRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 /**
@@ -15,7 +16,19 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val datasource: UserDataSource
 ) : UserRepository {
-    override fun getAllUsers(): List<UserEntity> {
-        return datasource.getAllUsers().map { it.toDomain() }
+    override suspend fun getAllUsers(): Flow<UserStatus> {
+        return try {
+            datasource.getAllUsers()
+        } catch (e: Exception) {
+            flowOf(UserStatus.Error(e))
+        }
+    }
+
+    override suspend fun getUserById(userId: Int): Flow<UserStatus> {
+        return try {
+            datasource.getUserById(userId)
+        } catch (e: Exception) {
+            flowOf(UserStatus.Error(e))
+        }
     }
 }
