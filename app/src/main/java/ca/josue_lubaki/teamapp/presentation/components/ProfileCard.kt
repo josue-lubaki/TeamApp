@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +22,7 @@ import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
+import ca.josue_lubaki.teamapp.ui.theme.dimensions
 
 /**
  * created by Josue Lubaki
@@ -37,7 +37,7 @@ fun ProfileCard(
 ) {
     Card(
         modifier = Modifier
-            .padding(all = 8.dp)
+            .padding(all = MaterialTheme.dimensions.small)
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
             .wrapContentHeight(align = Alignment.Top)
@@ -45,12 +45,16 @@ fun ProfileCard(
                 onClick = { onClick.invoke() },
                 onClickLabel = stringResource(R.string.click_to_see_user_details)
             ),
-        elevation = CardDefaults.cardElevation(8.dp),
+        elevation = CardDefaults.cardElevation(MaterialTheme.dimensions.micro),
         border =
             if (!isSystemInDarkTheme())
-                    BorderStroke(0.75.dp, MaterialTheme.colorScheme.onBackground)
+                    BorderStroke(
+                        width = MaterialTheme.dimensions.borderStrokeDefault,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
             else null,
     ) {
+
         val (_, fullName, imageURL, profession) = userEntity
         Row(
             modifier = Modifier.fillMaxWidth(),

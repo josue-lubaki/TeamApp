@@ -13,4 +13,5 @@
     <string name="user_profile_details">Détails du profil utilisateur</string>
     <string name="click_to_see_user_details">Cliquez pour voir les détails de l\'utilisateur</string>
     <string name="profile_picture">Photo de profil</string>
+    <string name="banner">Banner</string>
 </resources>

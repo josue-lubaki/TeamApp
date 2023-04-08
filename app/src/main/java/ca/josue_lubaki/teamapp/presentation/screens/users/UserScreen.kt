@@ -21,6 +21,7 @@ import ca.josue_lubaki.teamapp.domain.models.UserEntity
 import ca.josue_lubaki.teamapp.presentation.components.AppBar
 import ca.josue_lubaki.teamapp.presentation.components.ProfileCard
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
+import ca.josue_lubaki.teamapp.ui.theme.dimensions
 
 /**
  * created by Josue Lubaki
@@ -62,14 +63,13 @@ fun UserScreen(
         ) {
             LazyColumn(
                 modifier = Modifier.padding(
-                    horizontal = 8.dp,
-                    vertical = 4.dp
+                    horizontal = MaterialTheme.dimensions.small,
+                    vertical = MaterialTheme.dimensions.micro
                 )
             ) {
                 items(
                     items = usersList,
-                    key = { userEntity -> userEntity.id },
-                    contentType = { userEntity -> userEntity.id }
+                    key = { userEntity -> userEntity.id }
                 ) { userEntity ->
                     ProfileCard(
                         userEntity = userEntity,
