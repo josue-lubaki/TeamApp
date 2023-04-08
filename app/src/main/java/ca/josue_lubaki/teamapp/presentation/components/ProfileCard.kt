@@ -40,7 +40,6 @@ fun ProfileCard(
             .padding(all = MaterialTheme.dimensions.small)
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
-            .wrapContentHeight(align = Alignment.Top)
             .clickable(
                 onClick = { onClick.invoke() },
                 onClickLabel = stringResource(R.string.click_to_see_user_details)
@@ -62,7 +61,11 @@ fun ProfileCard(
             horizontalArrangement = Arrangement.Start
         ) {
             ProfilePicture(imageURL)
-            ProfileContent(fullName, profession)
+            ProfileContent(
+                fullName = fullName,
+                profession = profession,
+                textStyle = MaterialTheme.typography.titleLarge
+            )
         }
     }
 }

@@ -14,9 +14,9 @@ Includes:
     <th> </th>
     <th align="center">DARK MODE</th>
     <tr>
-        <td align="center"><img src="https://videoapi-muybridge.vimeocdn.com/animated-thumbnails/image/b44212fe-e73d-45a7-9f0b-93fef88dddd7.gif?ClientID=vimeo-core-prod&Date=1680878515&Signature=ff053c75f82a580cec2bdf90c9247cf14bf39902" width=360 height=760></td>
+        <td align="center"><img src="https://videoapi-muybridge.vimeocdn.com/animated-thumbnails/image/34c28fdb-b502-4f3f-bb77-496eb2343ee7.gif?ClientID=vimeo-core-prod&Date=1680958824&Signature=4623361a8f3912867b387afc9e3a390f00f00ed8" width=360 height=760></td>
         <td> </td>
-        <td align="center"><img src="https://videoapi-muybridge.vimeocdn.com/animated-thumbnails/image/a0163373-0326-44fb-bdd5-a7be4cc75f74.gif?ClientID=vimeo-core-prod&Date=1680877829&Signature=6e43d738b12a94a2c4969a302ab5e609b3c25bd4" width=360 height=760></td>
+        <td align="center"><img src="https://videoapi-muybridge.vimeocdn.com/animated-thumbnails/image/9810a0d9-718b-431b-a2c4-02ffb6563cb3.gif?ClientID=vimeo-core-prod&Date=1680959062&Signature=8fe129f4401f50d26f011702a6bb4fa0d29e3812" width=360 height=760></td>
     </tr>
 </table>
 
@@ -30,16 +30,16 @@ Includes:
         <th align="center" colspan="2"> List of Developers </th>
     </tr>
     <tr>
-        <td align="center"><img src="https://i.imgur.com/CNKBRgm.png" width=360 height=760></td>
-        <td align="center"><img src="https://i.imgur.com/QwWomoD.png" width=360 height=760></td>
+        <td align="center"><img src="https://i.imgur.com/Pz84LAJ.png" width=360 height=760></td>
+        <td align="center"><img src="https://i.imgur.com/hgPpAhf.png" width=360 height=760></td>
     </tr>
     <tr> </tr>
     <tr>
         <th align="center" colspan="2"> Details Info </th>
     </tr>
     <tr>
-        <td align="center"><img src="https://i.imgur.com/U3vGqDZ.png" width=360 height=760></td>
-        <td align="center"><img src="https://i.imgur.com/RIOHads.png" width=360 height=760></td>
+        <td align="center"><img src="https://i.imgur.com/7kzMBJP.png" width=360 height=760></td>
+        <td align="center"><img src="https://i.imgur.com/HebEr5N.png" width=360 height=760></td>
     </tr>
 </table>
 

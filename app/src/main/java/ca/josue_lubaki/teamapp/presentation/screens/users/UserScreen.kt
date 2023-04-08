@@ -51,7 +51,6 @@ fun UserScreenContainer(
             is UserState.Success -> {
                 usersList.value = (state as UserState.Success).users
             }
-
             else -> Unit
         }
     }
