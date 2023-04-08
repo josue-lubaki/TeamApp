@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
+import ca.josue_lubaki.teamapp.ui.theme.dimensions
 
 /**
  * created by Josue Lubaki
@@ -29,8 +30,7 @@ fun ProfileContent(
     horizontalAlignment : Alignment.Horizontal = Alignment.Start
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp),
+        modifier = Modifier.padding(MaterialTheme.dimensions.small),
         horizontalAlignment = horizontalAlignment
     ) {
         Text(

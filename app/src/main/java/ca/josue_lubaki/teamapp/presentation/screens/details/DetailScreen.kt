@@ -1,9 +1,12 @@
 package ca.josue_lubaki.teamapp.presentation.screens.details
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -14,16 +17,19 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ca.josue_lubaki.teamapp.R
-import ca.josue_lubaki.teamapp.data.db.local.Profession
+import ca.josue_lubaki.teamapp.data.db.local.Profession.*
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
 import ca.josue_lubaki.teamapp.presentation.components.AppBar
 import ca.josue_lubaki.teamapp.presentation.components.ProfileContent
 import ca.josue_lubaki.teamapp.presentation.components.ProfilePicture
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
+import ca.josue_lubaki.teamapp.ui.theme.dimensions
+import coil.compose.rememberAsyncImagePainter
 
 /**
  * created by Josue Lubaki
@@ -59,26 +65,49 @@ private fun DetailsScreen(
             )
         }
     ) { paddingValues ->
+
+        val backgroundColor = MaterialTheme.colorScheme.primaryContainer
+
         Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f)
+            modifier = Modifier.fillMaxSize(),
+            color = backgroundColor.copy(alpha = 0.1f),
         ) {
             val (_, fullName, imageURL, profession) = user
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top
-            ) {
-                ProfilePicture(imageURL, imageSize = 160.dp)
-                ProfileContent(
-                    fullName = fullName,
-                    profession = profession,
-                    horizontalAlignment = Alignment.CenterHorizontally
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Image(
+                    painter = rememberAsyncImagePainter(profession.bannerUrl),
+                    contentDescription = stringResource(R.string.banner),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = paddingValues.calculateTopPadding())
+                        .height(MaterialTheme.dimensions.bannerHeight),
+                    contentScale = ContentScale.FillBounds
                 )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            top = paddingValues.calculateTopPadding(),
+                            bottom = paddingValues.calculateBottomPadding()
+                        )
+                        .padding(top = MaterialTheme.dimensions.paddingXXXLarge),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top
+                ) {
+                    ProfilePicture(
+                        imageURL = imageURL,
+                        imageSize = MaterialTheme.dimensions.imageSize,
+                        borderColor = backgroundColor,
+                        borderSize = MaterialTheme.dimensions.micro
+                    )
+                    ProfileContent(
+                        fullName = fullName,
+                        profession = profession,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    )
+                }
             }
         }
     }
@@ -93,7 +122,7 @@ fun DetailsScreenPreview() {
                 id = 1,
                 fullName = "Josue Lubaki",
                 imageURL = "https://avatars.githubusercontent.com/u/16869302?v=4",
-                profession = Profession.DEVELOPER_ANDROID
+                profession = DEVELOPER_ANDROID
             ),
             onBackPressed = {}
         )

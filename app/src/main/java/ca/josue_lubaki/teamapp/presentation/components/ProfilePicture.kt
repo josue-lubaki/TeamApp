@@ -10,6 +10,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,13 +29,15 @@ import coil.compose.rememberAsyncImagePainter
 @Composable
 fun ProfilePicture(
     imageURL : String,
-    imageSize : Dp = 72.dp
+    imageSize : Dp = 72.dp,
+    borderSize : Dp = 2.dp,
+    borderColor : Color = MaterialTheme.colorScheme.primary
 ) {
     Card(
         shape = CircleShape,
         border= BorderStroke(
-            width = 2.dp,
-            color = MaterialTheme.colorScheme.primary,
+            width = borderSize,
+            color = borderColor,
         ),
         modifier = Modifier.padding(16.dp),
         elevation = CardDefaults.cardElevation(4.dp)
