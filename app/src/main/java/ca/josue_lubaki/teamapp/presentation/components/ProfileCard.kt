@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,8 +21,12 @@ import androidx.compose.ui.unit.dp
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
+import ca.josue_lubaki.teamapp.domain.models.orPlaceholder
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
 import ca.josue_lubaki.teamapp.ui.theme.dimensions
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.placeholder
+import com.google.accompanist.placeholder.shimmer
 
 /**
  * created by Josue Lubaki
@@ -32,8 +36,9 @@ import ca.josue_lubaki.teamapp.ui.theme.dimensions
 
 @Composable
 fun ProfileCard(
-    userEntity: UserEntity,
-    onClick: () -> Unit
+    userEntity: UserEntity? = null,
+    onClick: () -> Unit = {},
+    showPlaceholder: Boolean = false,
 ) {
     Card(
         modifier = Modifier
@@ -41,7 +46,7 @@ fun ProfileCard(
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surface)
             .clickable(
-                onClick = { onClick.invoke() },
+                onClick = { onClick() },
                 onClickLabel = stringResource(R.string.click_to_see_user_details)
             ),
         elevation = CardDefaults.cardElevation(MaterialTheme.dimensions.micro),
@@ -54,25 +59,29 @@ fun ProfileCard(
             else null,
     ) {
 
-        val (_, fullName, imageURL, profession) = userEntity
+        val (_, fullName, imageURL, profession) = userEntity.orPlaceholder()
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            ProfilePicture(imageURL)
+            ProfilePicture(
+                imageURL = imageURL,
+                showPlaceholder = showPlaceholder,
+            )
             ProfileContent(
                 fullName = fullName,
                 profession = profession,
-                textStyle = MaterialTheme.typography.titleLarge
+                textStyle = MaterialTheme.typography.titleLarge,
+                showPlaceholder = showPlaceholder,
             )
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun ProfileCardPreview() {
+private fun ProfileCardPreview() {
     TeamAppTheme {
         ProfileCard(
             userEntity = UserEntity(
@@ -81,7 +90,8 @@ fun ProfileCardPreview() {
                 imageURL = "https://avatars.githubusercontent.com/u/47045498?v=4",
                 profession = Profession.DEVELOPER_ANDROID
             ),
-            onClick = { /*TODO*/ }
+            onClick = {},
+            showPlaceholder = true
         )
     }
 }

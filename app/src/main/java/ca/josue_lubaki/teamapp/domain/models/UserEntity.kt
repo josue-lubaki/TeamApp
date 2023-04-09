@@ -11,7 +11,7 @@ import ca.josue_lubaki.teamapp.data.db.local.Profession
 data class UserEntity (
     val id: Int,
     val fullName: String,
-    val imageURL: String,
+    val imageURL: String? = null,
     val profession: Profession,
 )
 
@@ -19,8 +19,7 @@ fun UserEntity?.orPlaceholder() : UserEntity {
     return this
         ?: UserEntity(
             id = -1,
-            fullName = "",
-            imageURL = "",
+            fullName = "Full Name",
             profession = Profession.DEVELOPER_ANDROID
         )
 }

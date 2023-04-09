@@ -1,5 +1,6 @@
 package ca.josue_lubaki.teamapp.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LocalTextStyle
@@ -9,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
 import ca.josue_lubaki.teamapp.ui.theme.dimensions
+import ca.josue_lubaki.teamapp.utils.Extension.showPlaceholder
 
 /**
  * created by Josue Lubaki
@@ -28,16 +28,19 @@ import ca.josue_lubaki.teamapp.ui.theme.dimensions
 fun ProfileContent(
     fullName : String,
     profession: Profession,
+    showPlaceholder: Boolean = false,
     horizontalAlignment : Alignment.Horizontal = Alignment.Start,
     textStyle: TextStyle = MaterialTheme.typography.headlineSmall
 ) {
     Column(
         modifier = Modifier.padding(MaterialTheme.dimensions.small),
-        horizontalAlignment = horizontalAlignment
+        horizontalAlignment = horizontalAlignment,
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimensions.micro)
     ) {
         Text(
             text = fullName,
-            style = textStyle
+            style = textStyle,
+            modifier = Modifier.showPlaceholder(visible = showPlaceholder),
         )
 
         CompositionLocalProvider(
@@ -45,6 +48,7 @@ fun ProfileContent(
         ) {
             Text(
                 text = stringResource(id = profession.value),
+                modifier = Modifier.showPlaceholder(visible = showPlaceholder),
             )
         }
     }
@@ -57,7 +61,20 @@ private fun ProfileContentPreview() {
         ProfileContent(
             fullName = "Josue Lubaki",
             profession = Profession.DEVELOPER_ANDROID,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfileContentShimmerPreview() {
+    TeamAppTheme {
+        ProfileContent(
+            fullName = "Josue Lubaki",
+            profession = Profession.DEVELOPER_ANDROID,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            showPlaceholder = true,
         )
     }
 }
