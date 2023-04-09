@@ -1,7 +1,5 @@
 package ca.josue_lubaki.teamapp.presentation.screens.users
 
-import android.util.Log
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,23 +12,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
-import ca.josue_lubaki.teamapp.domain.models.orPlaceholder
 import ca.josue_lubaki.teamapp.presentation.components.AppBar
 import ca.josue_lubaki.teamapp.presentation.components.ProfileCard
-import ca.josue_lubaki.teamapp.presentation.components.ProfileCardPlaceholder
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
 import ca.josue_lubaki.teamapp.ui.theme.dimensions
 
