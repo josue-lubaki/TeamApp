@@ -4,9 +4,10 @@ Introduction to Jetpack Compose
 ## Description
 This is a simple app that shows how to use Jetpack Compose to build a simple app.
 Includes:
-- Navigation
-- Clean Architecture
-- Dependency Injection
+- [Navigation compose](https://developer.android.com/jetpack/compose/navigation?hl=fr)
+- [Clean Architecture](https://developer.android.com/topic/architecture?hl=fr)
+- [Dagger Hilt](https://developer.android.com/training/dependency-injection/hilt-android?hl=fr)
+- [Accompanist Placeholder](https://google.github.io/accompanist/placeholder/)
 
 ## Demonstration
 <table>
