@@ -1,5 +1,7 @@
 package ca.josue_lubaki.teamapp.presentation.screens.users
 
+import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,8 +27,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
+import ca.josue_lubaki.teamapp.domain.models.orPlaceholder
 import ca.josue_lubaki.teamapp.presentation.components.AppBar
 import ca.josue_lubaki.teamapp.presentation.components.ProfileCard
+import ca.josue_lubaki.teamapp.presentation.components.ProfileCardPlaceholder
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
 import ca.josue_lubaki.teamapp.ui.theme.dimensions
 
@@ -40,23 +45,13 @@ fun UserScreenContainer(
     onSelected: (Int) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val usersList = remember { mutableStateOf<List<UserEntity>>(emptyList())}
 
     LaunchedEffect(key1 = true){
         viewModel.onGetUsers()
     }
 
-    LaunchedEffect(key1 = state){
-        when(state){
-            is UserState.Success -> {
-                usersList.value = (state as UserState.Success).users
-            }
-            else -> Unit
-        }
-    }
-
     UserScreen(
-        usersList = usersList.value,
+        state = state,
         onSelected = onSelected
     )
 }
@@ -64,7 +59,7 @@ fun UserScreenContainer(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreen(
-    usersList: List<UserEntity>,
+    state : UserState,
     onSelected: (Int) -> Unit
 ) {
     Scaffold(
@@ -78,23 +73,34 @@ fun UserScreen(
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
-            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f)
-        ) {
-            LazyColumn(
-                modifier = Modifier.padding(
+                .padding(paddingValues)
+                .padding(
                     horizontal = MaterialTheme.dimensions.small,
                     vertical = MaterialTheme.dimensions.micro
-                )
-            ) {
-                items(
-                    items = usersList,
-                    key = { userEntity -> userEntity.id }
-                ) { userEntity ->
-                    ProfileCard(
-                        userEntity = userEntity,
-                        onClick = { onSelected(userEntity.id) }
-                    )
+                ),
+            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f)
+        ) {
+            LazyColumn {
+                when(state) {
+                    is UserState.Loading -> {
+                        items(10) {
+                            ProfileCard(showPlaceholder = true)
+                        }
+                    }
+
+                    is UserState.Success -> {
+                        items(
+                            items = state.users,
+                            key = { userEntity -> userEntity.id }
+                        ) { userEntity ->
+                            ProfileCard(
+                                userEntity = userEntity,
+                                onClick = { onSelected(userEntity.id) },
+                            )
+                        }
+                    }
+
+                    else -> Unit
                 }
             }
         }
@@ -106,69 +112,71 @@ fun UserScreen(
 fun UserScreenPreview() {
     TeamAppTheme {
         UserScreen(
+            state = UserState.Success(
+                listOf(
+                    UserEntity(
+                        id = 1,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 2,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 3,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 4,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 5,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 6,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 7,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 8,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 9,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                    UserEntity(
+                        id = 10,
+                        fullName = "Josue Lubaki",
+                        imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
+                        profession = Profession.DEVELOPER_ANDROID
+                    ),
+                )
+            ),
             onSelected = { },
-            usersList = listOf(
-                UserEntity(
-                    id = 1,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 2,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 3,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 4,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 5,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 6,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 7,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 8,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 9,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-                UserEntity(
-                    id = 10,
-                    fullName = "Josue Lubaki",
-                    imageURL = "https://avatars.githubusercontent.com/u/47000000?v=4",
-                    profession = Profession.DEVELOPER_ANDROID
-                ),
-            )
         )
     }
 }

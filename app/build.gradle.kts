@@ -90,6 +90,9 @@ dependencies {
     kapt(libs.hiltLibs.compiler)
     implementation(libs.hiltLibs.navigation.compose)
 
+    // Placeholder
+    implementation(libs.accompanist.placeholder)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)

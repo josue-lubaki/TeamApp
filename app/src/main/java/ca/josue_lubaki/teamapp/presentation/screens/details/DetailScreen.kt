@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.data.db.local.Profession.*
 import ca.josue_lubaki.teamapp.domain.models.UserEntity
@@ -34,6 +34,7 @@ import ca.josue_lubaki.teamapp.presentation.components.ProfileContent
 import ca.josue_lubaki.teamapp.presentation.components.ProfilePicture
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
 import ca.josue_lubaki.teamapp.ui.theme.dimensions
+import ca.josue_lubaki.teamapp.utils.Extension.showPlaceholder
 import coil.compose.rememberAsyncImagePainter
 
 /**
@@ -48,10 +49,10 @@ fun DetailScreenContainer(
     viewModel: DetailsViewModel,
     onBackPressed: () -> Unit
 ) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsState()
     val user = remember { mutableStateOf<UserEntity?>(null) }
 
-    LaunchedEffect(key1 = id){
+    LaunchedEffect(key1 = id) {
         viewModel.onGetUserById(id)
     }
 
@@ -63,6 +64,7 @@ fun DetailScreenContainer(
     }
 
     DetailsScreen(
+        state = state,
         user = user.value,
         onBackPressed = onBackPressed
     )
@@ -71,6 +73,7 @@ fun DetailScreenContainer(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun DetailsScreen(
+    state : DetailsState,
     user: UserEntity?,
     onBackPressed: () -> Unit
 ) {
@@ -99,6 +102,7 @@ private fun DetailsScreen(
                     contentDescription = stringResource(R.string.banner),
                     modifier = Modifier
                         .fillMaxWidth()
+                        .showPlaceholder(visible = state is DetailsState.Loading)
                         .padding(top = paddingValues.calculateTopPadding())
                         .height(MaterialTheme.dimensions.bannerHeight),
                     contentScale = ContentScale.FillBounds
@@ -119,12 +123,14 @@ private fun DetailsScreen(
                         imageURL = imageURL,
                         imageSize = MaterialTheme.dimensions.imageSize,
                         borderColor = backgroundColor,
-                        borderSize = MaterialTheme.dimensions.micro
+                        borderSize = MaterialTheme.dimensions.micro,
+                        showPlaceholder = state is DetailsState.Loading
                     )
                     ProfileContent(
                         fullName = fullName,
                         profession = profession,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        showPlaceholder = state is DetailsState.Loading
                     )
                 }
             }
@@ -132,17 +138,30 @@ private fun DetailsScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun DetailsScreenPreview() {
+private fun DetailsScreenPreview() {
     TeamAppTheme {
         DetailsScreen(
+            state = DetailsState.Idle,
             user = UserEntity(
                 id = 1,
                 fullName = "Josue Lubaki",
                 imageURL = "https://avatars.githubusercontent.com/u/16869302?v=4",
                 profession = DEVELOPER_ANDROID
             ),
+            onBackPressed = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DetailsScreenShimmerPreview() {
+    TeamAppTheme {
+        DetailsScreen(
+            state = DetailsState.Loading,
+            user = null,
             onBackPressed = {}
         )
     }

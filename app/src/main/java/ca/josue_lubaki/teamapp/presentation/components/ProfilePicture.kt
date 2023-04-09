@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import ca.josue_lubaki.teamapp.R
 import ca.josue_lubaki.teamapp.ui.theme.TeamAppTheme
 import ca.josue_lubaki.teamapp.ui.theme.dimensions
+import ca.josue_lubaki.teamapp.utils.Extension.showPlaceholder
 import coil.compose.rememberAsyncImagePainter
 
 /**
@@ -29,7 +30,8 @@ import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun ProfilePicture(
-    imageURL: String,
+    imageURL: String?,
+    showPlaceholder: Boolean = false,
     imageSize: Dp = MaterialTheme.dimensions.paddingSemiXLarge,
     borderSize: Dp = MaterialTheme.dimensions.borderStrokeSmall,
     borderColor: Color = MaterialTheme.colorScheme.primary
@@ -45,17 +47,19 @@ fun ProfilePicture(
     ) {
         Image(
             painter =
-                if (imageURL.isNotEmpty())
+                if (imageURL.isNullOrEmpty().not())
                     rememberAsyncImagePainter(imageURL)
-                else painterResource(R.drawable.profile),
+                else painterResource(id = R.drawable.profile),
             contentDescription = stringResource(R.string.profile_picture),
-            modifier = Modifier.size(imageSize),
+            modifier = Modifier
+                .size(imageSize)
+                .showPlaceholder(visible = showPlaceholder),
             contentScale = ContentScale.Crop,
         )
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ProfilePicturePreview() {
     TeamAppTheme {

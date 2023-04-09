@@ -5,9 +5,12 @@ import ca.josue_lubaki.teamapp.data.db.local.mockData
 import ca.josue_lubaki.teamapp.data.mapper.toDomain
 import ca.josue_lubaki.teamapp.domain.models.UserStatus
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
+import java.lang.Thread.sleep
 import javax.inject.Inject
 
 /**
@@ -17,14 +20,14 @@ import javax.inject.Inject
  */
 
 class MockUserDatasource @Inject constructor(
-    private val dispatchers : CoroutineDispatcher
+    private val dispatchers: CoroutineDispatcher
 ) : UserDataSource {
     override suspend fun getAllUsers(): Flow<UserStatus> {
-           return flowOf(
-               UserStatus.Success(
-                   users = mockData.map { it.toDomain() }
-               )
-           ).flowOn(dispatchers)
+        return flowOf(
+            UserStatus.Success(
+                users = mockData.map { it.toDomain() }
+            )
+        ).flowOn(dispatchers)
     }
 
     override suspend fun getUserById(userId: Int): Flow<UserStatus> {
